@@ -1,72 +1,73 @@
-# Crypto Dash Pro — Крипто‑Дашборд
+# React + TypeScript + Vite
 
-Криптовалютный дашборд с реальными данными, построенный на React + TypeScript + CoinGecko API.  
-Показывает курсы, графики, избранные монеты, полный список и собственный портфель с расчётом P&L.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Основные возможности
+Currently, two official plugins are available:
 
-- **Топ‑10 монет**  
-  - Топ‑10 по рыночной капитализации с ценой, изменением за 24 часа и интерактивным графиком.  
-- **Избранные**  
-  - Добавление/удаление монет в избранное через `localStorage`, поиск по названию или символу.  
-- **Все монеты**  
-  - Пагинация (30 монет на страницу), поиск и фильтры по росту/падению.  
-- **Портфель**  
-  - Учёт личных холдингов, расчёт текущей стоимости, P&L и распределения по круговой диаграмме.  
-  - Обновление цен каждые 30 секунд.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-## Стек технологий
+## React Compiler
 
-- **Фронтенд**:  
-  - React + TypeScript  
-  - `react-router-dom` (v6, многостраничный дашборд)  
-  - `framer-motion` для анимаций, hover‑эффектов и кнопочных микро‑анимаций  
-  - Tailwind CSS
-- **Графики и UI**:  
-  - `recharts` — линейный график цены и круговая диаграмма распределения портфеля  
-  - `lucide-react` — иконки  
-- **АПИ и данные**:  
-  - CoinGecko API (`/coins/markets`, `/coins/${id}/market_chart`)  
-  - Axios с глобальным `interceptor` для отловов ошибок и лимитов API  
-- **Состояние и хранилище**:  
-  - Локальное состояние через `useState`, `useEffect`, `useMemo`, `useCallback`  
-  - `localStorage` для избранных
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## Как запустить проект
+## Expanding the ESLint configuration
 
-1. Клонируй репозиторий:
-```bash
-git clone https://github.com/your-username/dashbroadcrypto.git
-cd dashbroadcrypto
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
+
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
 
-2. Установи зависимости:
-```bash
-npm install
-# или
-yarn
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
+
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
-
-3. Запусти dev‑сервер:
-```bash
-npm run dev
-# или
-yarn dev
-```
-
-4. Открой:
-```bash
-http://localhost:3000
-```
-
-> Примечание: приложение использует публичное API CoinGecko. Действуют лимиты — если лимит достигнут, появится глобальное окно‑ошибка с предложением обновить страницу.
-
----
-
-## Про этот проект
-
-Проект задумывался как **портфолио‑готовый дашборд** на React + TypeScript, чтобы показать:
-- Чистую архитектуру: типы, API‑слой, стейт‑утилиты (`localStorage`), отдельные страницы и компоненты.  
-- Работу с внешним API, обработкой ошибок и UX‑дружественными состояниями (загрузка, пустые списки, ошибки).  
-- современный визуал: анимации, градиенты, бэкдроп‑блюры, адаптивная сетка (mobile/desktop).  
-- Локальное хранение данных и простой “портфельный” калькулятор P&L.
